@@ -43,12 +43,12 @@ Generating predictions at 10m resolution (6.5 million points) within 2 weeks req
 TODO; update workflow as scripts are added to repo
 
 ### Repo Structure ###
-Scripts are seperated into folders, one folder for each stage of the data pipeline:
-CreatePartitionGrid - create and refine a grid of points across Portland, OR at 10m resolution
-PreprocessPredictionDtasets - Using parallel computing, calculate metrics such as distance and radial degree needed for deriving predictor metrics
-DerivePredictorMetrics - calculate metrics used in linear reqression equations
-PredictLEQAndDNL - claculate LEQ and DNL for each point using linear regression equations
-CreateRasterSurface - georeference noise predictions and refine for final prediction surfaces
+Scripts are seperated into folders, one folder for each stage of the data pipeline <br>
+[Create Partition Grid](https://github.com/larkinandy/PDXNoiseSurface/tree/main/CreatePredictionGrid) - create and refine a grid of points across Portland, OR at 10m resolution <br>
+[Preprocess Prediction Dtasets](https://github.com/larkinandy/PDXNoiseSurface/tree/main/PreprocessPredictionDatasets) - Using parallel computing, calculate metrics such as distance and radial degree needed for deriving predictor metrics <br>
+[Derive Predictor Metrics](https://github.com/larkinandy/PDXNoiseSurface/tree/main/DerivePredictorMetrics) - calculate metrics used in linear reqression equations <br>
+[Predict LEQ and DNL](https://github.com/larkinandy/PDXNoiseSurface/tree/main/PredictLEQAndDNL) - claculate LEQ and DNL for each point using linear regression equations <br>
+[Create Raster Surface](https://github.com/larkinandy/PDXNoiseSurface/tree/main/CreateRasterSurface) - georeference noise predictions and refine for final prediction surfaces
 
 ### External Links ###
 **External links**
