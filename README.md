@@ -5,7 +5,7 @@
 TODO: add noise surface map
 
 **Author:** [Andrew Larkin](https://www.linkedin.com/in/andrew-larkin-525ba3b5/) <br>
-**Affiliation:** [Oregon State University, College of Health](https://health.oregonstate.edu/)) <br>
+**Affiliation:** [Oregon State University, College of Health](https://health.oregonstate.edu/) <br>
 **Principal Investigator:** [Matthew Bozigar](https://health.oregonstate.edu/directory/matthew-bozigar) <br>
 **Date Created:** March 22nd, 2024
 
