@@ -3,7 +3,7 @@ Stage 3 of the pipeline. Using preprocessed datasets, calculate variable metrics
 
 TODO: add summary statistics table 
 
-### Metric Summary Statistics ###
+### Grid Point Summary Statistics ###
 | Variable  | Buffer (m) | Statistic | IDW | Road Type  | Shield Adjustment  | mean  | IQR | 
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |------------- |
 | percent cars  | 10  | mean  | False  | tertiary/unclassified  | unshielded roads only  | TBD  | TBD | 
