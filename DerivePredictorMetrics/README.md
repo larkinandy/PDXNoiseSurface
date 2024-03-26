@@ -21,7 +21,6 @@ TODO: add summary statistics table
 | percent heavy trucks | 800  | mean  | False  | primary/secondary  | unshielded roads only  | TBD  | TBD |
 | percent heavy trucks | 1200  | sum  | False  | primary/secondary  | unshielded roads only  | TBD  | TBD |
 | heavy truck emissions | 1200  | mean  | False  | primary/secondary  | unshielded roads only  | TBD  | TBD |
-| percent medium trucks  | 1400  | quantile  | True  | primary/secondary | unshielded roads only  | TBD  | TBD |
 | percent cars | 2000  | mean  | True  | tertiary/unclassified  | unshielded roads only  | TBD  | TBD |
 
 abbreviations: **IQR** - Interquartile range, **IDW** - Inverse Distance Weighted, **NDVI** - normalized difference vegetation index, **AADT** - Annual Average Daily Traffic 
