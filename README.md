@@ -56,3 +56,5 @@ Scripts are seperated into folders, one folder for each stage of the data pipeli
 - **noise surface** - TODO: link to noise predictions
 - **funding agency** - TODO: add link to funding agency
 - **LASSO variable selection** - https://github.com/larkinandy/LUR-NO2-Model/tree/master/statistical%20analysis
+- **ArcGIS Pro** - https://www.esri.com/en-us/arcgis/products/arcgis-pro/overview
+- **geopandas** - https://github.com/geopandas/geopandas
