@@ -18,6 +18,7 @@ BUFFER_DISTANCES = [20,20,10,20] # each variable only has one buffer size in the
 MULTIPLIER = [10,10,10,1] # polyline values should be multiplied by 10 (to count as 10m of segment)
 NEAR_FOLDER = "F:/Noise/nearMisc/" # contains pre-calculated values of distance from grid points to road segments
 OUTPUT_FOLDER = "F:/Noise/miscMetrics/"
+
 ########## HELPER FUNCTIONS #############
 
 # rename misc variables to conform to designated nomenclature scheme.  New variable names contain
