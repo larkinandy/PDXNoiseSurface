@@ -8,7 +8,7 @@
 **[calcRdAngleParallel.py](https://github.com/larkinandy/PDXNoiseSurface/blob/main/PreprocessPredictionDatasets/calcRdAngleParallel.py)** - Identify angular relationship between each grid point and road segments within 2000m. <br>
 **[genNearTableParallel.py](https://github.com/larkinandy/PDXNoiseSurface/blob/main/PreprocessPredictionDatasets/genNearTableParallel.py)** - calculate distance from road segments to grid points <br>
 **[genNearTableParallelMisc.py](https://github.com/larkinandy/PDXNoiseSurface/blob/main/PreprocessPredictionDatasets/genNearTableParallelMisc.py)** - calculate distance from grid points to misc features such as street lights and trimet routes <br>
-**[genWindShapefileParallel.py](https://github.com/larkinandy/PDXNoiseSurface/blob/main/PreprocessPredictionDatasets/genWindShapefileParallel.py)** - create shapefiles to capture the radial angle between grids and surrounding land use features <br>
+**[genAngleShapefileParallel.py](https://github.com/larkinandy/PDXNoiseSurface/blob/main/PreprocessPredictionDatasets/genAngleShapefileParallel.py)** - create shapefiles to capture the radial angle between grids and surrounding land use features <br>
 
 TODO: upload calcRdAngleParallel.py
 TO"DO: add hyperlink to calcRdAngleParallel.py
