@@ -1,7 +1,7 @@
+![GitHub Logo](../images/1x/Stage2.png)
+
 # Preprocess Prediction Datasets
  Stage 2 of the pipeline.  Transforrm datasets to formats better suited for calculating predictor variables.  Example preprocessing steps include claculating distance to nearest building and roads, and identifying the heading (angle) between grid points and nearby features
-
-#### TODO: add image summarizing this stage of the pipeline
 
 ### Files ###
 **[calcBldgDistance.py](https://github.com/larkinandy/PDXNoiseSurface/blob/main/PreprocessPredictionDatasets/calcBldgDistance.py)** - calculate distance from grid points to buildings.  Also identify angular relationship between buildings and grid points <br>
