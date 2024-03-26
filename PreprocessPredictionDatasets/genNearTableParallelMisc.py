@@ -17,22 +17,20 @@ INPUT_FOLDER = "H:/Noise/implementation/screenedFishnet/"
 
 # create an array of global constants for the predictor datasets
 INPUT_PREDICTORS = []
-for fileName in ['TriMet_Routes/tm_routes.shp',
-                 'Portland_Emergency_Transportation_Routes/Portland_Emergency_Transportation_Routes.shp',
-                 'Street_Lights/Street_Lights.shp',
-                 'Recommended_Bicycle_Routes/Recommended_Bicycle_Routes.shp'
+for fileName in ['tm_routes10m.shp',
+                 'Portland_Emergency_Transportation_Routes10m.shp',
+                 'Recommended_Bicycle_Routes10m.shp'
                  ]:
-    absFilepath = "H:/Noise/LUR/PredictorData/" + fileName
-    if(not(os.path.exists(outputFiabsFilepathlepath))):
-        print("filepath for %s does not exist" %(fileName))
-    INPUT_PREDICTORS.append(absFilepath)
+        absFilepath = "H:/Noise/buffers/int/" + fileName
+        INPUT_PREDICTORS.append(absFilepath)
+INPUT_PREDICTORS.append('H:/Noise/LUR/PredictorData/Street_Lights/Street_Lights.shp')
 
 BUFFER_SIZES = [10,20,20,20]
 N_CPUS = 12
 
 # distance to each predictor variable is stored in a seperate folder
 OUTPUT_FOLDERS = []
-for name in ['sl','er','bi','tm']:
+for name in ['tm','er','bi','sl']:
     OUTPUT_FOLDERS.append("F:/Noise/nearMisc/" + name + "/")
 
 sucessfulImport = False

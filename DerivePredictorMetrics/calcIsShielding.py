@@ -14,7 +14,6 @@ import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 # define global constants
-INPUT_FOLDER = "E:/Noise/wind"
 NEAR_ROADS_FOLDER =  "Y:/noise/near/"
 NEAR_BLDGS_FOLDER = "E:/Noise/bldgDist/"
 RD_ANGLE_FOLDER = "E:/Noise/rdAngle/"
@@ -25,7 +24,7 @@ N_CPUS = 32
 
 # identify which roads a single grid point is shielded from by buildings
 # INPUTS:
-#    roadDists (pandas dataframe) - distance from road segments to grid point
+#    roadDists (pandas ataframe) - distance from road segments to grid point
 #    pointNum (int) - unique identifier for grid point within shapefile (e.g. 1,2,...999)
 #    bldgFile (str) - absolute filepath to file containing data for each road segment 
 #                     (e.g. speed, pavement type)
@@ -98,7 +97,7 @@ def processSingleFileSig(fileSig):
 if __name__ == '__main__':
 
     # get list of point subset shapefiles
-    fileSigs = os.listdir(INPUT_FOLDER)
+    fileSigs = os.listdir(NEAR_BLDGS_FOLDER)
 
     # randomly shuffle.  If errors are uncountered and pools terminate early, this helps spread the workload 
     # uniformly across cpus when the error is corrected and the script is restarted

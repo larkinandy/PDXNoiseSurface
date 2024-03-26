@@ -36,7 +36,7 @@ import pandas as ps
 BUILDINGS = "H:/Noise/building/buildingMergedDissolve2/buildingMergedDissolve2.shp"
 POINT_ANGLE_FOLDER = "J:/w2"
 POINT_PARTITION_FOLDER = "J:/screenedFishnet/"
-OUTPUT_FOLDER = "F:/Noise/bldgDist/"
+OUTPUT_FOLDER = "Z:/Noise/bldgDist/"
 N_CPUS = 12
 
 ########## HELPER FUNCTIONS #############
@@ -122,7 +122,7 @@ def calcDistToNearestBldg(angleFile,monitorFile,monitorNum,buildings,outputFile,
     # prevent memory leaks by explicitly deleting intermediate files
     arcpy.management.Delete(TempTab)
     arcpy.management.Delete(intersects)
-    arcpy.management.Delete(selectedAirMonitor)
+    arcpy.management.Delete(selectedGridPoint)
     arcpy.management.Delete(buildingSubset)
 
     # save distance and angle information to csv
@@ -167,7 +167,7 @@ def calcDistToNearestBldgSig(fileSig):
         if(index%100==0):
             print("processing monitor %i for file Sig %s" %(index,fileSig))
 
-        angleFile = POINT_PARTITION_FOLDER + "/" + fileSig + "/w" + str(index) + ".shp"
+        angleFile = POINT_ANGLE_FOLDER + "/" + fileSig + "/w" + str(index) + ".shp"
         if(angleFile in shpFiles):
             outputFile = outputFolder + "/bldg" + str(index) + ".csv"
             if not(os.path.exists(outputFile)):
@@ -185,7 +185,7 @@ def calcDistToNearestBldgSig(fileSig):
 if __name__ == '__main__':
 
     # get list of point subset shapefiles
-    fileSigs = os.listdir(POINT_PARTITION_FOLDER)
+    fileSigs = os.listdir(POINT_ANGLE_FOLDER)
 
     # randomly shuffle.  If errors are uncountered and pools terminate early, this helps spread the workload 
     # uniformly across cpus when the error is corrected and the script is restarted
