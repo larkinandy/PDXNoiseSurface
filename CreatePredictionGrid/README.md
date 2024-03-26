@@ -1,3 +1,5 @@
+![GitHub Logo](../images/1x/Stage1.png)
+
 # CreatePredictionGrid
 First stage in the noise surface pipeline.  Create a grid of points across Portland city boundaries at 10m resolution, and partition the grid into subsets for data parallelism in stages 2 and 3
 
