@@ -37,7 +37,7 @@ Predictions were created with a land use regression model.  Variables for the mo
 abbreviations: IDW - Inverse Distance Weighted, NDVI - normalized difference vegetation index, AADT - Annual Average Daily Traffic 
 
 ### Data Pipeline ###
-Generating predictions at 10m resolution (6.5 million points) within 2 weeks required adopting a distributed computing workflow.  Tasks were broken up into microservices, similar to containers or pods in a Kubernetes workflow.  Tasks with high parallelizability were assigned to 64-core workstations, while other tasks were assigned to 16-core workstations.  The dependencies betweeen tasks are shown in the flow diagram below.
+Generating predictions at 10m resolution (6.5 million points) within 2 weeks required adopting a distributed computing workflow.  Tasks were broken up into microservices, similar to containers or pods in a Kubernetes workflow.  Tasks with high parallelizability were assigned to 64-core workstations, while other tasks were assigned to 16-core workstations.  The dependencies betweeen tasks are shown in the flow diagram below.  FLow moves from top to bottom and left to right.
 
 ![GitHub Logo](./images/1x/workflow.png)
 TODO; update workflow as scripts are added to repo
@@ -45,7 +45,7 @@ TODO; update workflow as scripts are added to repo
 ### Repo Structure ###
 Scripts are seperated into folders, one folder for each stage of the data pipeline <br>
 [Create Partition Grid](https://github.com/larkinandy/PDXNoiseSurface/tree/main/CreatePredictionGrid) - create and refine a grid of points across Portland, OR at 10m resolution <br>
-[Preprocess Prediction Dtasets](https://github.com/larkinandy/PDXNoiseSurface/tree/main/PreprocessPredictionDatasets) - Using parallel computing, calculate metrics such as distance and radial degree needed for deriving predictor metrics <br>
+[Preprocess Prediction Datasets](https://github.com/larkinandy/PDXNoiseSurface/tree/main/PreprocessPredictionDatasets) - Using parallel computing, calculate metrics such as distance and radial degree needed for deriving predictor metrics <br>
 [Derive Predictor Metrics](https://github.com/larkinandy/PDXNoiseSurface/tree/main/DerivePredictorMetrics) - calculate metrics used in linear reqression equations <br>
 [Predict LEQ and DNL](https://github.com/larkinandy/PDXNoiseSurface/tree/main/PredictLEQAndDNL) - claculate LEQ and DNL for each point using linear regression equations <br>
 [Create Raster Surface](https://github.com/larkinandy/PDXNoiseSurface/tree/main/CreateRasterSurface) - georeference noise predictions and refine for final prediction surfaces
@@ -56,3 +56,5 @@ Scripts are seperated into folders, one folder for each stage of the data pipeli
 - **noise surface** - TODO: link to noise predictions
 - **funding agency** - TODO: add link to funding agency
 - **LASSO variable selection** - https://github.com/larkinandy/LUR-NO2-Model/tree/master/statistical%20analysis
+- **ArcGIS Pro** - https://www.esri.com/en-us/arcgis/products/arcgis-pro/overview
+- **geopandas** - https://github.com/geopandas/geopandas
