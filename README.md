@@ -33,7 +33,7 @@ Predictions were created with a land use regression model.  Variables for the mo
 | heavy truck emissions  | 1200  | mean  | False  | primary/secondary | unshielded roads only  |
 | percent cars | 2000  | mean  | True  | tertiary/unclassified  | unshielded roads only  |
 
-abbreviations: IDW - Inverse Distance Weighted, NDVI - normalized difference vegetation index, AADT - Annual Average Daily Traffic 
+abbreviations: **IDW** - Inverse Distance Weighted, **NDVI** - normalized difference vegetation index, **AADT** - Annual Average Daily Traffic 
 
 ### Data Pipeline ###
 Generating predictions at 10m resolution (6.5 million points) within 2 weeks required adopting a distributed computing workflow.  Tasks were broken up into microservices, similar to containers or pods in a Kubernetes workflow.  Tasks with high parallelizability were assigned to 64-core workstations, while other tasks were assigned to 16-core workstations.  The dependencies betweeen tasks are shown in the flow diagram below.  FLow moves from top to bottom and left to right.
