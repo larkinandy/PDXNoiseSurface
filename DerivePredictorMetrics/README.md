@@ -1,8 +1,6 @@
 # Derive Predictor Metrics
 Stage 3 of the pipeline. Using preprocessed datasets, calculate variable metrics used in the land use regression model (e.g. average speed of vehicles driving on primary roads within 20m)
 
-TODO: add summary statistics table 
-
 ### Grid Point Summary Statistics ###
 | Variable  | Buffer (m) | Statistic | IDW | Road Type  | Shield Adjustment  | mean  | IQR | 
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |------------- |
