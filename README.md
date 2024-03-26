@@ -30,7 +30,6 @@ Predictions were created with a land use regression model.  Variables for the mo
 | percent cars | 700  | mean  | True  | primary/secondary  | shielded and unshielded roads  |
 | percent heavy trucks | 800  | mean  | False  | primary/secondary  | unshielded roads only  |
 | percent heavy trucks | 1200  | sum  | False  | primary/secondary  | unshielded roads only  |
-| heavy truck emissions | 1200  | mean  | False  | primary/secondary  | unshielded roads only  |
 | percent medium trucks  | 1400  | quantile  | True  | primary/secondary | unshielded roads only  |
 | percent cars | 2000  | mean  | True  | tertiary/unclassified  | unshielded roads only  |
 
