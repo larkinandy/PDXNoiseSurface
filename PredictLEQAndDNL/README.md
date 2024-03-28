@@ -1,5 +1,5 @@
-# PDXNoiseSurface
- Create a 10m surfce of outdoor LEQ noise levels in Portland, OR
+# Predict LEQ and DNL
+Using a linear regression model predict LEQ and DNL levels for 10m grid points across Portland, OR
 
 //![GitHub Logo](./noise_map.png)
 TODO: add noise surface map
