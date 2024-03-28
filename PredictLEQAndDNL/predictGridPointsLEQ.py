@@ -15,6 +15,8 @@ ROAD_BUFFER_FOLDER = "H:/Noise/implementation/pcca700mdp/"
 SHIELDING_BUFFER_FOLDER = "Z:/Noise/shieldingBuffers/"
 NDVI_SHAPEFILE_FOLDER = "H:/Noise/implementation/screenedFishnet/"
 OUTPUT_FOLDER = "H:/Noise/implementation/predictions/"
+JOIN_FOLDER_QD = "Z:/Noise/joinTableQuickDraw/"
+JOIN_FOLDER_BE = "Z:/Noise/joinTableBeasty/"
 
 # linear regression model varaibles and coefficients
 VARIABLES = ['shpche800mup','ushpcca50mup','ushemme1200mup','ushpche1200sup',
@@ -36,7 +38,8 @@ def getFinishedSigs():
     finishedSigs = []
     shieldedCSVS = os.listdir(SHIELDING_BUFFER_FOLDER)
     for csv in shieldedCSVS:
-        finishedSigs.append(csv[:-4])
+        if(os.path.exists(MISC_BUFFER_FOLDER + csv) and os.path.exists(ROAD_BUFFER_FOLDER + csv)):
+            finishedSigs.append(csv[:-4])
     return(finishedSigs)
 
 # load data into memory for a batch of grid points
@@ -49,11 +52,13 @@ def loadData(fileSig):
     sigData = ps.read_csv(MISC_BUFFER_FOLDER + fileSig + ".csv")
     sigData = sigData.merge(ps.read_csv(ROAD_BUFFER_FOLDER + fileSig + ".csv"),
                             how = 'outer', on='monitor_id')
-    sigData = sigData.merge(ps.read_csv(SHIELDING_BUFFER_FOLDER + fileSig + ".csv"),
-                            how='outer',on='monitor_id')
-    sigData = sigData.fillna(0)
+    
     sigData = sigData.merge(getNDVIShapefileVals(fileSig),
-                            how='inner',on='monitor_id')
+                            how='outer',on='monitor_id')
+
+    sigData = sigData.merge(processShieldData(SHIELDING_BUFFER_FOLDER + fileSig + ".csv",fileSig),
+                            how='outer',on='FID_1')
+    sigData = sigData.fillna(0)
     return(sigData)
 
 # unpack nested arrays in a tuple
@@ -62,7 +67,7 @@ def loadData(fileSig):
 # OUTPUTS:
 #    unpacked tuple
 def unpackTuple(inTuple):
-     return((inTuple[0],inTuple[1][0],inTuple[1][1],inTuple[2],inTuple[3]))
+     return((inTuple[0],inTuple[1],inTuple[2][0],inTuple[2][1],inTuple[3],inTuple[4]))
 
 # exact NDVI metrics and lat/long coordinates from a batch of grid points shapefile
 # INPUTS:
@@ -73,9 +78,10 @@ def unpackTuple(inTuple):
 #    and lat/long coords for all grid points in the shapefile
 def getNDVIShapefileVals(fileSig):
         inFilepath = NDVI_SHAPEFILE_FOLDER + fileSig + ".shp"
-        tempData  = arcpy.da.FeatureClassToNumPyArray(in_table=inFilepath, field_names=['FID','Shape','nd450m','nd10m'], skip_nulls=False, null_value=-99999)        
+    
+        tempData  = arcpy.da.FeatureClassToNumPyArray(in_table=inFilepath, field_names=['FID','FID_1','Shape','nd450m','nd10m'], skip_nulls=False, null_value=-99999)        
         tempData = list(map(unpackTuple,tempData))
-        df = ps.DataFrame(tempData,columns=['monitor_id', 'longitude','latitude', 'nd450m','nd10m'])
+        df = ps.DataFrame(tempData,columns=['monitor_id', 'FID_1','longitude','latitude', 'nd450m','nd10m'])
         return(df)
 
 # predict LEQ and contributions of each predictor variable using the linear regression model 
@@ -86,15 +92,15 @@ def getNDVIShapefileVals(fileSig):
 #    variable
 def genPredictions(predictorData):
     index = 0
-    print(len(VARIABLES))
-    print(len(COEF))
     nPoints = predictorData.count()[0]
     predictorData['LEQ'] = [INTERCEPT for x in range(nPoints)]
     for index in range(len(VARIABLES)):
         predName = 'x' + str(index) 
-        print(predictorData[VARIABLES[index]]+1)
-        predictorData[predName] = predictorData[VARIABLES[index]]*[COEF[index] for x in range(nPoints)]
+        predictorData[predName] = predictorData[VARIABLES[index]]*COEF[index]
+        if(VARIABLES[index] in (['nd10m','nd450m'])):
+           predictorData[predName] = predictorData[predName].clip(upper=0)
         predictorData['LEQ'] += predictorData[predName]
+    predictorData['LEQ'] = predictorData['LEQ'].round(0).astype(int)
     return(predictorData)
     
 # load data and predict LEQ for a batch of grid points
@@ -106,8 +112,29 @@ def genPredictions(predictorData):
 def processFileSig(fileSig):
     predictorData = loadData(fileSig)
     modelPredictions = genPredictions(predictorData)
+    modelPredictions['batch'] = [fileSig for x in range(modelPredictions.count()[0])]
     return(modelPredictions)
 
+# a temporary fix to correct differences between shapefiles on 2 different worksattions.  Not 
+# required for future studies
+# map grid point ids on workstation 1 to grid ids on workstation2
+def joinStations(fileSig):
+    qd = ps.read_csv(JOIN_FOLDER_QD + fileSig + ".csv")
+    qd = qd[['OID_','FID_1']]
+    be = ps.read_csv(JOIN_FOLDER_BE + fileSig + ".csv")
+    be['FID_be'] = [x for x in range(be.count()[0])]
+    joined = qd.merge(be,how='inner',on='FID_1')
+    return(joined)
+
+# load shield metrics into memory.  A temporary fix to correct differences in shapefiles
+# future studies can read the data directly into memory
+def processShieldData(shieldFile,sig):
+    shieldData = ps.read_csv(shieldFile)
+    joinMatch = joinStations(sig) # a temporary fix, not required in future studies
+    shieldData = shieldData.merge(joinMatch,how='inner',left_on='monitor_id',right_on='FID_be')
+    shieldData.drop(columns=['monitor_id'],inplace=True)
+    shieldData.to_csv("C:/users/larki/Desktop/temp.csv",index=False)
+    return(shieldData)
 
 ####################### MAIN FUNCTION ##################
 if __name__ == '__main__':

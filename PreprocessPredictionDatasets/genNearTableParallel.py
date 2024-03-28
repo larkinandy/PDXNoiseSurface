@@ -15,7 +15,7 @@ import random
 INPUT_FOLDER = "H:/Noise/implementation/screenedFishnet/"
 NEAR_FOLDER = "F:/Noise/near/"
 ROADS = "H:/Noise/implementation/PDX10m.shp"
-N_CPUS = 12
+N_CPUS = 16
 
 sucessfulImport = False
 # needed when using the ArcGIS license for a large # of parallel threads
@@ -55,12 +55,12 @@ def generateNearTableSingle(pointsShapefile):
             return
 
     # calculate distance between road network and grid points 
-    nearFeatures = "in_memory/inMemoryFeatureClass"
-    arcpy.CopyFeatures_management(ROADS, nearFeatures)
+    nearFeatures = "in_memory/inMemoryFeatureClass" + pointsShapefile[:-4]
+    #arcpy.CopyFeatures_management(ROADS, nearFeatures)
     a = arcpy.analysis.GenerateNearTable(
         in_features=INPUT_FOLDER + pointsShapefile,
-        near_features=nearFeatures,
-        out_table= NEAR_FOLDER + pointsShapefile[:-4] + ".csv",
+        near_features=ROADS,
+        out_table= outputFile,
         search_radius='2000 Meters',
         location="NO_LOCATION",
         angle="NO_ANGLE",
@@ -72,6 +72,10 @@ def generateNearTableSingle(pointsShapefile):
 
     # clean up.  Arcpy doesn't always remove temporary variables after completing the function call
     arcpy.management.Delete(nearFeatures)
+
+    nearData = ps.read_csv(outputFile)
+    nearData = nearData[['IN_FID','NEAR_FID','NEAR_DIST']]
+    nearData.to_csv(outputFile,index=False)
 
 # given an array of filenames, find only files with a 'shp' extension
 # INPUTS:
@@ -90,6 +94,9 @@ if __name__ == '__main__':
     
     # get list of point subset shapefiles 
     filesToProcess = processFiles(os.listdir(INPUT_FOLDER))
+    # filesToProcess = ['b0.shp','b1000.shp','b2000.shp','b3000.shp','b4000.shp',
+    #                   'b5000.shp','b6000.shp','b7000.shp','b8000.shp','b9000.shp',
+    #                   'b10000.shp']
 
     # randomly shuffle.  If errors are uncountered and pools terminate early, this helps spread the workload 
     # uniformly across cpus when the error is corrected and the script is restarted

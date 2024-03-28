@@ -6,17 +6,19 @@
 
 
 # import libraries 
+from multiprocessing import Pool
 import pandas as ps
 import os
 import warnings
+import random
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 OUTPUT_FOLDER = "H:/Noise/implementation/pcca700mdp/"
 BUFFER_DISTANCES = [700] # only the 700 meter buffer is used in this script.  More buffer distances 
                          # are required for the script that calculates shield-modified road metrics
-ROADS = "H:/Noise/LUR3/PDX10m.csv" # road network partitioned into 10m segments
+ROADS = "H:/Noise/implementation/PDX10m.csv" # road network partitioned into 10m segments
 NEAR_FOLDER = "F:/Noise/near/" # contains pre-calculated values of distance from grid points to road segments
-
+N_CPUS = 12
 ########## HELPER FUNCTIONS #############
 
 # normalize input data by distance to monitor 
@@ -109,16 +111,10 @@ def processNearData(nearFile):
 # load road network into memory and create road classification subsets
 # OUTPUTS:
 #    primaryRds (pandas dataframe) - subset of primary/secondary roads
-#    tertRds (pandas dataframe) - subset of tertiary/unclassified roads
-#    resRds (pandas dataframe) - subset of residential roads
-#    allRds (pandas dataframe) - the entire road network
 def preprocessRoadData():
     roadData = ps.read_csv(ROADS)
     primaryRds = roadData[roadData['roadType']==0]
-    tertRds = roadData[roadData['roadType']==1]
-    resRds = roadData[roadData['roadType']==2]
-    allRds = roadData[roadData['roadType']<4]
-    return([primaryRds,tertRds,resRds,allRds])
+    return(primaryRds)
 
 # derive road metrics for a single grid point shapefile, containing 1000 grid points
 # save results to csv file
@@ -126,17 +122,20 @@ def preprocessRoadData():
 #    sig (str) - unique identifier indicating which shapefile to process
 #    primaryRoads (pandas dataframe) - dataset containing information about primary/secondary roads
 #                                      (e.g. speed, pavement type)
-def processSingleSig(sig,primaryRoads):
+def processSingleSig(sig):
+    outputFile = OUTPUT_FOLDER + str(sig) + ".csv"
+    
+    # if the shapefile has already been processed, return early to avoid redundant processing
+    if os.path.exists(outputFile):
+        return
+    
+    
+    primaryRoads = preprocessRoadData()
     roadDistFile = NEAR_FOLDER + str(sig) + ".csv"
 
     # verify road distances have alraedy been preprocessed in a previous script before continuing
     if not(os.path.exists(roadDistFile)):
         print("cannot create shielding buffers for sig %s: road distances not available" %(sig))
-        return
-    outputFile = OUTPUT_FOLDER + str(sig) + ".csv"
-    
-    # if the shapefile has already been processed, return early to avoid redundant processing
-    if os.path.exists(outputFile):
         return
 
     # prepare dataset containing distance from grid points to road segments
@@ -163,10 +162,16 @@ def generateFileSigs():
 
 ####################### MAIN FUNCTION ##################
 if __name__ == '__main__':
-    primaryRoads,tertiaryRoads,resRoads,allRoads = preprocessRoadData()
     fileSigs = generateFileSigs()
 
-    # for each shapefile containing grid points, calculate the road buffer metrics
-    for sig in fileSigs:
-        processSingleSig(sig,primaryRoads)
+    # randomly shuffle.  If errors are uncountered and pools terminate early, this helps spread the workload 
+    # uniformly across cpus when the error is corrected and the script is restarted
+    random.shuffle(fileSigs)
+    
+    # create a pool of workers, one worker for each free CPU.  I wouldn't recommend going above the CPU
+    # count via hyperthreading, arcpy performance doesn't seem to work well when worker count goes above
+    # physical core count
+    pool = Pool(processes=N_CPUS)
+    res = pool.map_async(processSingleSig,fileSigs)
+    res.get()
         

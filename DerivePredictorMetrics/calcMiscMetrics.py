@@ -77,6 +77,20 @@ def processSingleFeature(fileSig,featureAbbrev,multiplier,buffer):
     bufferEst = bufferEst.fillna(0)
     return(bufferEst)
 
+# test if prerequisite processing is complete
+# INPUTS:
+#    fileSig (str) - unique indentifier for each batch of grid points 
+#    (e.g. b1000 for gird points 1000-1999)
+# OUTPUTS:
+#    True if preprocesing is complete, False otherwise
+def isPreprocessingComplete(fileSig):
+    for ab in ABBREV:
+        testFile = NEAR_FOLDER + ab + "/" + fileSig + ".csv"
+        if(os.path.exists(testFile)==False):
+            print("preprocessing not complete for batch %s" %(fileSig))
+            return False
+    return True
+
 # calculate misc metrics for a single batch of grid points
 # INPUTS:
 #    fileSig (str) - unique identifier for each batch of grid points
@@ -87,6 +101,10 @@ def processSingleSig(fileSig):
     # check if metrics have already been calculated for this batch.
     # skip if already processed to reduce redundancy
     if(os.path.exists(outputFile)):
+        return
+    
+    # if preprocessing is not yet finished, skip this batch of grid points
+    if(isPreprocessingComplete(fileSig)==False):
         return
     
     # calculate metrics for one varible to seed the dataset

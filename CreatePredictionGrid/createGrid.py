@@ -29,10 +29,10 @@ def createPointGrid(boundary,resolution,crs):
     cityBoundaries = gpd.read_file(boundary)
     
     # Reproject to projected coordinate system
-    gdf = gdf.to_crs(crs)
+    cityBoundaries = cityBoundaries.to_crs(crs)
     
     # Get the extent of the shapefile
-    total_bounds = gdf.total_bounds
+    total_bounds = cityBoundaries.total_bounds
 
     # Get minX, minY, maxX, maxY
     minX, minY, maxX, maxY = total_bounds
