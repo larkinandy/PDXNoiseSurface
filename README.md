@@ -1,7 +1,7 @@
 # PDXNoiseSurface
  Create a 10m surfce of outdoor LEQ noise levels in Portland, OR
 
-![GitHub Logo](../images/1x/CityMap.png)
+![GitHub Logo](./images/1x/CityMap.jpg)
 
 **Author:** [Andrew Larkin](https://www.linkedin.com/in/andrew-larkin-525ba3b5/) <br>
 **Affiliation:** [Oregon State University, College of Health](https://health.oregonstate.edu/) <br>
