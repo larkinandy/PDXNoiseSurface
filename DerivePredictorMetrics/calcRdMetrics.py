@@ -18,7 +18,7 @@ BUFFER_DISTANCES = [700] # only the 700 meter buffer is used in this script.  Mo
                          # are required for the script that calculates shield-modified road metrics
 ROADS = "H:/Noise/implementation/PDX10m.csv" # road network partitioned into 10m segments
 NEAR_FOLDER = "F:/Noise/near/" # contains pre-calculated values of distance from grid points to road segments
-N_CPUS = 12
+N_CPUS = 2
 ########## HELPER FUNCTIONS #############
 
 # normalize input data by distance to monitor 
@@ -103,9 +103,9 @@ def extractBufferEstimatesForRoads(bufferDistances,nearDist,roadMeasures,roadTyp
 #    nearFile with all distances less than 1 rounded up to 1 meter
 def processNearData(nearFile):
     nearData = ps.read_csv(nearFile)
-    nearData1 = nearData[nearData['NEAR_DIST']>=1]
-    nearData2 = nearData[nearData['NEAR_DIST']<1]
-    nearData2['NEAR_DIST'] = 1
+    nearData1 = nearData[nearData['NEAR_DIST']>=5]
+    nearData2 = nearData[nearData['NEAR_DIST']<5]
+    nearData2['NEAR_DIST'] = 5
     return(ps.concat([nearData1,nearData2]))
 
 # load road network into memory and create road classification subsets
@@ -129,8 +129,6 @@ def processSingleSig(sig):
     if os.path.exists(outputFile):
         return
     
-    
-    primaryRoads = preprocessRoadData()
     roadDistFile = NEAR_FOLDER + str(sig) + ".csv"
 
     # verify road distances have alraedy been preprocessed in a previous script before continuing
@@ -140,6 +138,11 @@ def processSingleSig(sig):
 
     # prepare dataset containing distance from grid points to road segments
     nearData = processNearData(roadDistFile)
+    # near file may not yet be complete skip for now
+    if(999 not in nearData['IN_FID']):
+        return
+    
+    primaryRoads = preprocessRoadData()
 
     # derive road metrics for primary/secondary roads
     primaryRds = extractBufferEstimatesForRoads(BUFFER_DISTANCES,nearData,primaryRoads,'p')

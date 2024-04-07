@@ -11,11 +11,11 @@ arcpy.env.overwriteOutput=True
 # define global constants
 HOME_FOLDER = "H:/Noise/"
 PREDICTION_FOLDER = HOME_FOLDER + "implementation/predictions/"
-TEMP_FOLDER = PREDICTION_FOLDER + "tempFiles/"
+TEMP_FOLDER = PREDICTION_FOLDER + "tempFiles.gdb/"
 LEQ_POINT_FILE = PREDICTION_FOLDER + "LEQ.csv"
-LEQ_SHAPEFILE = TEMP_FOLDER + "LEQ.shp"
+LEQ_SHAPEFILE = TEMP_FOLDER + "LEQ"
 DNL_POINT_FILE = PREDICTION_FOLDER + "DNL.csv"
-DNL_SHAPEFILE = TEMP_FOLDER + "DNL.shp"
+DNL_SHAPEFILE = TEMP_FOLDER + "DNL"
 LEQ_RASTER_FILE = PREDICTION_FOLDER + "LEQ.tif"
 DNL_RASTER_FILE = PREDICTION_FOLDER + "DNL.tif"
 BUILDINGS_SHAPEFILE = HOME_FOLDER + "building/buildingMergedDissolve2/buildingMergedDissolve2.shp"
@@ -103,10 +103,16 @@ def makeRaster(inShapefile,valueField,outputRaster):
     output = arcpy.sa.Con(arcpy.sa.IsNull(rasterFilepath), 
                  arcpy.sa.FocalStatistics(rasterFilepath,arcpy.sa.NbrRectangle(2,2, "CELL"),"MEAN"),
                  rasterFilepath)
+    
+    # clamp maximum values t
+    output = arcpy.sa.Con(output > 94, 94,output)
+
     for x in range(3):
         output = arcpy.sa.Con(arcpy.sa.IsNull(output), 
                  arcpy.sa.FocalStatistics(output,arcpy.sa.NbrRectangle(2,2, "CELL"),"MEAN"),
                  output)
+        
+    
         
     # remove pixels that are in water bodies
     output = arcpy.sa.ExtractByMask(
@@ -134,7 +140,7 @@ def makeRaster(inShapefile,valueField,outputRaster):
 
 ####################### MAIN FUNCTION ##################
 if __name__ == '__main__':
-    createShapefile(LEQ_POINT_FILE,LEQ_SHAPEFILE)
+    #createShapefile(LEQ_POINT_FILE,LEQ_SHAPEFILE)
     makeRaster(LEQ_SHAPEFILE,'LEQ',LEQ_RASTER_FILE)
     #createShapefile(DNL_POINT_FILE,DNL_SHAPEFILE)
     #makeRaster(DNL_SHAPEFILE,'DNL',DNL_RASTER_FILE)
