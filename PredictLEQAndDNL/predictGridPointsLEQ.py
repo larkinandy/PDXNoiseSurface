@@ -145,8 +145,12 @@ if __name__ == '__main__':
 
     # for each grid point batch, predict LEQ.
     dfArr = []
+    index =0 
     for fileSig in sigsToProcess:
+        if(index%500==0):
+            print("completed predictions for %i gridPoints" %(index*1000))
         dfArr.append(processFileSig(fileSig))
+        index+=1
 
     # combine batches and save to disk
     df = ps.concat(dfArr)

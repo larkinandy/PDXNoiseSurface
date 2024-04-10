@@ -105,8 +105,8 @@ def makeRaster(inShapefile,valueField,outputRaster):
                  rasterFilepath)
     
     # clamp maximum values t
-    output = arcpy.sa.Con(output > 94, 94,output)
-
+    output = arcpy.sa.Con(output > 86, 86,output)
+    output = arcpy.sa.Con(output < 44, 44,output)
     for x in range(3):
         output = arcpy.sa.Con(arcpy.sa.IsNull(output), 
                  arcpy.sa.FocalStatistics(output,arcpy.sa.NbrRectangle(2,2, "CELL"),"MEAN"),
