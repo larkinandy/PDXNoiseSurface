@@ -3,9 +3,6 @@
 # Derive Predictor Metrics
 Stage 3 of the pipeline. Using preprocessed datasets, calculate variable metrics used in the land use regression model (e.g. average speed of vehicles driving on primary roads within 20m)
 
-abbreviations: **IQR** - Interquartile range, **IDW** - Inverse Distance Weighted, **NDVI** - normalized difference vegetation index, **AADT** - Annual Average Daily Traffic 
-
-
 ### Files ###
 **[calcIsShielding.py](https://github.com/larkinandy/PDXNoiseSurface/blob/main/DerivePredictorMetrics/calcIsShielding.py)** - for each grid point, determine which roads are shielded by buildings <br>
 **[calcMiscMetrics.py](https://github.com/larkinandy/PDXNoiseSurface/blob/main/DerivePredictorMetrics/calcMiscMetrics.py)** - calculate metrics for each variable not directly attached to the road network polyline file or NDVI (e.g. number of street lights, bus routes, bicycle routes)  <br>
