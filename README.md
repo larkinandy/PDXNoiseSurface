@@ -51,7 +51,6 @@ PDX_LEQ_2024_raster - predicted LEQ at 10x10m resolution
 ### External Links ###
 **External links**
 - **publication** - TODO: update once published
-- **funding agency** - TODO: add link to funding agency
 - **LASSO variable selection** - https://github.com/larkinandy/LUR-NO2-Model/tree/master/statistical%20analysis
 - **ArcGIS Pro** - https://www.esri.com/en-us/arcgis/products/arcgis-pro/overview
 - **geopandas** - https://github.com/geopandas/geopandas
