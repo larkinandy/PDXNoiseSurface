@@ -46,11 +46,11 @@ Scripts are seperated into folders, one folder for each stage of the data pipeli
 [Derive Predictor Metrics](https://github.com/larkinandy/PDXNoiseSurface/tree/main/DerivePredictorMetrics) - calculate metrics used in linear reqression equations <br>
 [Predict LEQ and DNL](https://github.com/larkinandy/PDXNoiseSurface/tree/main/PredictLEQAndDNL) - claculate LEQ and DNL for each point using linear regression equations <br>
 [Create Raster Surface](https://github.com/larkinandy/PDXNoiseSurface/tree/main/CreateRasterSurface) - georeference noise predictions and refine for final prediction surfaces
+PDX_LEQ_2024_raster - predicted LEQ at 10x10m resolution
 
 ### External Links ###
 **External links**
 - **publication** - TODO: update once published
-- **noise surface** - TODO: link to noise predictions
 - **funding agency** - TODO: add link to funding agency
 - **LASSO variable selection** - https://github.com/larkinandy/LUR-NO2-Model/tree/master/statistical%20analysis
 - **ArcGIS Pro** - https://www.esri.com/en-us/arcgis/products/arcgis-pro/overview
